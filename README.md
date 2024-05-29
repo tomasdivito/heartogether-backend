@@ -1,10 +1,13 @@
 # Hear Together API
 
-This is the official repo for the Hear Together API services.
+Repo oficial del backend de Hear Together
+
+# Requesitivos
+- Node v20
 
 ### How to run
-
-- Install dependencies
+- Crear un archivo `.env` en la raiz del proyecto usando como ejemplo `.env.example`
+- Instalar dependencias
 ```
 $ npm install
 ```
@@ -12,9 +15,13 @@ $ npm install
 and run the project
 
 ```
-npm run index.js
+npm start
 ```
+
+(Si se esta desarrollando, recordar setear la variable de entorno de la app para que apunte al server que estan corriendo)
 
 # Google Cloud Setup
 
-TODO
+Para que el backend funcione correctamente necesitaran un archivo `heartogether-key.json`
+Deberan setear la variable de entorno `GOOGLE_APPLICATION_CREDENTIALS` con el path al archivo
+en el `.env`

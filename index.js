@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const multer = require('multer');
 const speech = require('@google-cloud/speech');
@@ -5,10 +7,16 @@ const path = require('path');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 
-
-const client = new speech.SpeechClient();
+const client = new speech.SpeechClient({
+  keyFilename: path.join(__dirname, process.env.GOOGLE_APPLICATION_CREDENTIALS),
+});
 
 const app = express();
+// Ensure the 'uploads' directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir);
+}
 // Set up Multer to save files to disk
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,7 +45,7 @@ app
     .audioCodec('pcm_s16le')
     .on('end', async () => {
       try {
-        const fileContent = fs.readFileSync(linear16Path).toString('base64');
+        const fileContent = fs.readFileSync(linear16Path);
 
         // Construct audio recognition request
         const [response] = await client.recognize({
@@ -79,39 +87,7 @@ app
       res.status(500).json({ error: 'An error occurred during audio conversion' });
     })
     .save(linear16Path);
-  })
-  .get('/', async (req, res) => {
-  // The path to the remote LINEAR16 file
-  const gcsUri = 'gs://cloud-samples-data/speech/brooklyn_bridge.raw';
-
-  // The audio file's encoding, sample rate in hertz, and BCP-47 language code
-  const audio = {
-    uri: gcsUri,
-  };
-  const config = {
-    encoding: 'LINEAR16',
-    sampleRateHertz: 16000,
-    languageCode: 'en-US',
-  };
-  const request = {
-    audio: audio,
-    config: config,
-  };
-
-  // Detects speech in the audio file
-  const [response] = await client.recognize(request);
-  const transcription = response.results
-    .map(result => result.alternatives[0].transcript)
-    .join('\n');
-  response.results.forEach(result => {
-    console.log('result:', result);
-    console.log('alternatives:');
-    result.alternatives.forEach((alternative, index) => {
-      console.log(`alternative ${index}: ${alternative.transcript}`)
-    });
   });
-  res.send(`${transcription}`);
-});
 
 const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
