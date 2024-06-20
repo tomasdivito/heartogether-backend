@@ -11,6 +11,9 @@ Repo oficial del backend de Hear Together
 ```
 $ npm install
 ```
+- Instalar ffmpeg
+  - [Windows](https://www.gyan.dev/ffmpeg/builds/)
+  - [Others](https://ffmpeg.org/download.html)
 
 and run the project
 
