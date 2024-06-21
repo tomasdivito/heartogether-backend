@@ -13,6 +13,23 @@ const transcribeAudio = async (req, res) => {
 
   const filePath = req.file.path;
   const linear16Path = filePath.replace(path.extname(filePath), '.wav');
+  const fileExtension = path.extname(filePath).toLowerCase();
+
+  console.log('fileExtension:', fileExtension);
+  if (fileExtension === '.wav') {
+    try {
+      console.log('will avoid convertion to wav as we already have a wav file');
+      const transcription = await TranscriptionService.transcribe(linear16Path);
+      res.send(`Transcription: ${transcription}`);
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'An error occurred during transcription' });
+    } finally {
+      fs.unlinkSync(filePath);
+    }
+
+    return;
+  }
 
   ffmpeg(filePath)
     .toFormat('wav')
