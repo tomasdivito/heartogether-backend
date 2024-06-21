@@ -1,9 +1,11 @@
 import fs from 'node:fs';
 import express from 'express';
 import config from './config/config.js';
+import cors from 'cors';
 import TranscribeRoutes from './routes/TrascribeRoutes.js';
 
 const app = express();
+app.use(cors());
 
 // Ensure the 'uploads' directory exists
 const uploadDir = 'uploads';
