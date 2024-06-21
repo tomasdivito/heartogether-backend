@@ -1,12 +1,12 @@
-const fs = require('fs');
-const speech = require('@google-cloud/speech');
-const config = require('../config/config');
+import fs from 'node:fs';
+import speech from '@google-cloud/speech';
+import config from '../config/config.js'
 
 const client = new speech.SpeechClient({
   keyFilename: config.googleApplicationCredentials,
 });
 
-exports.transcribe = async (filePath) => {
+const transcribe = async (filePath) => {
   const fileContent = fs.readFileSync(filePath);
 
   const [response] = await client.recognize({
@@ -23,4 +23,8 @@ exports.transcribe = async (filePath) => {
   return response.results
     .map(result => result.alternatives[0].transcript)
     .join('\n');
+};
+
+export default {
+  transcribe,
 };

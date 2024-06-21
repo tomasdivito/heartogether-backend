@@ -1,9 +1,10 @@
-const path = require('path');
-const fs = require('fs');
-const ffmpeg = require('fluent-ffmpeg');
-const TranscriptionService = require('../services/TranscriptionService');
+import path from 'node:path';
+import fs from 'node:fs';
+import ffmpeg from 'fluent-ffmpeg';
+import TranscriptionService from '../services/TranscriptionService.js';
+import SignService from '../services/SignService.js';
 
-exports.transcribeAudio = async (req, res) => {
+const transcribeAudio = async (req, res) => {
   console.log('Received file:', req.file);
 
   if (!req.file) {
@@ -33,4 +34,14 @@ exports.transcribeAudio = async (req, res) => {
       res.status(500).json({ error: 'An error occurred during audio conversion' });
     })
     .save(linear16Path);
+};
+
+const interpret = async (req, res) => {
+   await SignService.testOllama();
+   res.status(200).send('Oh hi');
+}
+
+export default {
+  transcribeAudio,
+  interpret,
 };

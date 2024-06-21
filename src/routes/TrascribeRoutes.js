@@ -1,7 +1,7 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const TranscribeController = require('../controllers/TranscribeController');
+import express from 'express';
+import multer from 'multer';
+import path from 'node:path';
+import TranscribeController from '../controllers/TranscribeController.js';
 
 const router = express.Router();
 
@@ -16,5 +16,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post('/transcribe', upload.single('audio'), TranscribeController.transcribeAudio);
+router.get('/interpret', TranscribeController.interpret);
 
-module.exports = router;
+export default router;

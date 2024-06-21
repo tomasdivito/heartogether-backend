@@ -1,7 +1,7 @@
-const fs = require('node:fs');
-const express = require('express');
-const config = require('./config/config');
-const TranscribeRoutes = require('./routes/TrascribeRoutes');
+import fs from 'node:fs';
+import express from 'express';
+import config from './config/config.js';
+import TranscribeRoutes from './routes/TrascribeRoutes.js';
 
 const app = express();
 
