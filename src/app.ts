@@ -1,9 +1,12 @@
-import fs from 'node:fs';
+/*(import fs from 'fs';
 import express from 'express';
-import config from './config/config.js';
+import config from './config/config';
 import cors from 'cors';
-import TranscribeRoutes from './routes/TrascribeRoutes.js';
+import TranscribeRoutes from './routes/TrascribeRoutes';
+*/
 
+console.log('oh hi');
+return;
 const app = express();
 app.use(cors());
 

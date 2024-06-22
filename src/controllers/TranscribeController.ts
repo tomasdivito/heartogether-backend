@@ -1,8 +1,9 @@
-import path from 'node:path';
-import fs from 'node:fs';
+import path from 'path';
+import fs from 'fs';
 import ffmpeg from 'fluent-ffmpeg';
-import TranscriptionService from '../services/TranscriptionService.js';
-import SignService from '../services/SignService.js';
+import TranscriptionService from '../services/TranscriptionService';
+import SignService from '../services/SignService';
+import { insertSign } from '../../db/schema.js';
 
 const transcribeAudio = async (req, res) => {
   console.log('Received file:', req.file);
@@ -54,7 +55,11 @@ const transcribeAudio = async (req, res) => {
 };
 
 const interpret = async (req, res) => {
-   await SignService.testOllama();
+   //await SignService.testOllama();
+   await insertSign({
+    name: 'hello',
+    description: 'waving of hands',
+   })
    res.status(200).send('Oh hi');
 }
 

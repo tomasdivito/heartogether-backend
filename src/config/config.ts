@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import path from 'path';
+import { fileURLToPath } from 'url';
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

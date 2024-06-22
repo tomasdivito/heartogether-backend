@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'node:path';
-import TranscribeController from '../controllers/TranscribeController.js';
+import path from 'path';
+import TranscribeController from '../controllers/TranscribeController';
 
 const router = express.Router();
 

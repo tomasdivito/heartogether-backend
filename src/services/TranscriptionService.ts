@@ -1,6 +1,6 @@
-import fs from 'node:fs';
+import fs from 'fs';
 import speech from '@google-cloud/speech';
-import config from '../config/config.js'
+import config from '../config/config'
 
 const client = new speech.SpeechClient({
   keyFilename: config.googleApplicationCredentials,
