@@ -54,8 +54,8 @@ const transcribeAudio = async (req, res) => {
 };
 
 const interpret = async (req, res) => {
-   await SignService.testOllama();
-   res.status(200).send('Oh hi');
+   const response = await SignService.interpret(req.body.transcription);
+   res.status(200).send(response);
 }
 
 export default {

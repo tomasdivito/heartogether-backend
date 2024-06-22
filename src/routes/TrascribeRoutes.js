@@ -16,6 +16,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post('/transcribe', upload.single('audio'), TranscribeController.transcribeAudio);
-router.get('/interpret', TranscribeController.interpret);
+router.post('/interpret', TranscribeController.interpret);
 
 export default router;
