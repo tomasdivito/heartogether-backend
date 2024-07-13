@@ -10,15 +10,34 @@ no se debe incluir nada en la salida.
 
 Cuando se mencionan nombres propios deben ser incluidos, igual que las direcciones.
 
-Las distintas señas que debemos detectar son las siguientes:
-
-SIGN: Presentación, DESCRIPCIÓN: Una persona se introduce "mi nombre es X", "me llamo X", etc.
-SIGN: Saludo_Introducción, DESCRIPCIÓN: "Hola" "Buenas (a secas)"
-SIGN: Saludo_Despido, DESCRIPCION: Una persona se despide "chau" "adios"
-SIGN: Buenos_Días
-SIGN: Buenas_Tardes
-SIGN: Buenas_Noches
-SIGN: Vivo_En
+Las señas que tenemos en el sistema son, en formato SEÑA - Descripcion opcional para ayudar a detectar:
+NOMBRE_PROPIO - Si se detecta que se está refiriendo a un nombre propio, se indica con esta seña y el el value iría el nombre propio que se detectó
+DIRECCION - Si se detecta que se está indicando una dirección, funciona igual que NOMBRE_PROPIO
+HOLA - Un simple saludo, o introduccion
+BUENOS_DIAS
+BUENAS_TARDES
+BUENAS_NOCHES
+YO
+TU
+EL
+NOSOTROS
+USTEDES
+ELLOS
+ME
+LE
+LA
+MIO
+SUYO
+NUESTRO
+NOMBRE - Indicando un nombre
+AULA - Puede ser aula, salón de clases, etc
+UBICACION
+DONDE
+CÓMO
+MATERIA
+JUGAR
+GUSTAR - De apreciar algo
+FUTBOL - puede tambien ser "pelota", u otra forma de referirse a ese juego
 
 Utilizar solo esas señas definidas.
 
@@ -28,7 +47,7 @@ SIGN: Nombre_Propio
 La respuesta debe ser un array de objetos:
 [
   { "sign": "SIGN", "original_text": "<texto original>" },
-  { "sign": "Nombre_Propio", "value": "TOMAS" }
+  { "sign": "NOMBRE_PROPIO", "value": "tomas" }
 ]
 
 Por ejemplo:
@@ -38,14 +57,15 @@ Entrada: "Buenas tardes, mi nombre es Tomás, y me gusta jugar a la pelota chau!
 Respuesta:
 
 [
-  { "sign": "Buenas_Tardes", "original_text": "Buenas tardes," },
-  { "sign": "Presentación", "original_text": "mi nombre es" },
-  { "sign": "Nombre_Propio", "value": "TOMAS" },
-  { "sign": "Saludo_Despido", "original_text": "chau!"}
+  { "sign": "BUENAS_TARDES", "original_text": "Buenas tardes," },
+  { "sign": "MIO", "original_text": "mi" },
+  { "sign": "NOMBRE", "original_text": "nombre es" },
+  { "sign": "NOMBRE_PROPIO", "value": "tomas"},
+  { "sign": "YO", "original_text": "y me gusta jugar a la pelota" },
+  { "sign": "JUGAR", "original_text": "y me gusta jugar a la pelota" },
+  { "sign": "PELOTA", "original_text": "y me gusta jugar a la pelota" },
+  { "sign": "GUSTAR", "original_text": "y me gusta jugar a la palota" },
 ]
 
-Toma en cuenta que 'y me gusta jugar a la pelota' no debe ser incluido en la lista porque
-no esta definido como manejar esas frases.
-
-Recuerda solo devolver esa lista de señas, utilizando la lista de de señas mencionada.
+Tener en cuenta que textos como "y me gusta jugar a la pelota" deben ser transformados de manera que siempre se indique PERSONA - ACCION - ADJETIVO por ejemplo para que se entienda con las señas que se tienen disponibles.
 """
