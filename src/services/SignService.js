@@ -3,10 +3,12 @@ import config from '../config/config.js';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
+import { JsonOutputParser } from '@langchain/core/output_parsers'
 
 const ollama = new Ollama({ host: config.ollamaHost });
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const file = fs.readFileSync(path.join(__dirname, '../model/modelfile'), 'utf-8');
+const file = fs.readFileSync(path.join(__dirname, '../model/model_v2'), 'utf-8');
+const parser = new JsonOutputParser();
 
 const interpret = async (transcription) => {
   let response = '{}';
@@ -20,12 +22,20 @@ const interpret = async (transcription) => {
         content: transcription,
       }],
     });
-    console.log(response);
+    console.log('model response:',response);
   } catch (error) {
     console.log('Error testing ollama:', error);
   }
+  console.log(typeof response.message.content);
+  const jsonMatch = response.message.content.match(/\[.*\]/s);
 
-  return JSON.parse(response.message.content);
+  if (!jsonMatch[0]) {
+    console.log('no json match');
+    return { error: 'no json match was found' };
+  }
+  const parsed = await parser.parse(jsonMatch[0]);
+  console.log('parsed?:',parsed);
+  return parsed;
 };
 
 const setupOllamaModel = async () => {
