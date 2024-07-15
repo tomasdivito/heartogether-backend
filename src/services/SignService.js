@@ -26,15 +26,12 @@ const interpret = async (transcription) => {
   } catch (error) {
     console.log('Error testing ollama:', error);
   }
-  console.log(typeof response.message.content);
   const jsonMatch = response.message.content.match(/\[.*\]/s);
 
   if (!jsonMatch[0]) {
-    console.log('no json match');
     return { error: 'no json match was found' };
   }
   const parsed = await parser.parse(jsonMatch[0]);
-  console.log('parsed?:',parsed);
   return parsed;
 };
 
