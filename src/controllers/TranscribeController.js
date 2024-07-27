@@ -37,7 +37,7 @@ const transcribeAudio = async (req, res) => {
     .on('end', async () => {
       try {
         const transcription = await TranscriptionService.transcribe(linear16Path);
-        res.send(`Transcription: ${transcription}`);
+        res.send(transcription);
       } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'An error occurred during transcription' });
