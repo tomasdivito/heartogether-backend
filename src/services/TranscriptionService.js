@@ -20,9 +20,8 @@ const transcribe = async (filePath) => {
       languageCode: 'es-AR',
     },
   });
-
   // Getting the first of the alternatives.
-  const alternative = response.result.alternatives[0];
+  const alternative = response.results[0].alternatives[0];
 
   const signedResponse = await SignService.interpret(alternative.transcript);
   return {
