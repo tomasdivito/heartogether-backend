@@ -20,7 +20,7 @@ const transcribeAudio = async (req, res) => {
     try {
       console.log('will avoid convertion to wav as we already have a wav file');
       const transcription = await TranscriptionService.transcribe(linear16Path);
-      res.send(`Transcription: ${transcription}`);
+      res.send(transcription);
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'An error occurred during transcription' });
